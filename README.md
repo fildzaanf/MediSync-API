@@ -1,1 +1,1 @@
-# go-mini-project
+# MediSync API
