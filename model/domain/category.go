@@ -7,7 +7,7 @@ import (
 type Category struct {
 	*gorm.Model
 
-	Name     string     `json:"name" form:"name"`
-	Details  string     `json:"details" form:"details"`
-	Medicine []Medicine // one to many
+	Name     string
+	Details  string
+	Medicine []Medicine `gorm:"ForeignKey:CategoryID;references:ID"` // one to many
 }

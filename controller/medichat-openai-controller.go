@@ -18,7 +18,7 @@ func OpenAIMediChatResponseController(request *web.MediChatRequest) (*domain.Med
 
 	message := []openai.ChatCompletionMessage{{
 		Role:    openai.ChatMessageRoleSystem,
-		Content: "Anda adalah AI MediChat. Anda akan menjawab pertanyaan seputar kesehatan terutama mengenai obat",
+		Content: "Anda adalah AI MediChat. Anda dirancang untuk memberikan informasi dan jawaban terkait topik kesehatan, terutama pertanyaan tentang obat-obatan.",
 	},
 		{
 			Role:    openai.ChatMessageRoleUser,

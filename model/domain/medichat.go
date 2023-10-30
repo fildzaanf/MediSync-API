@@ -7,6 +7,6 @@ import (
 type MediChat struct {
 	*gorm.Model
 
-	Message  string `json:"message" form:"message"`
-	Response string `json:"response" form:"response"`
+	Message  string 
+	Response string 
 }

@@ -20,7 +20,7 @@ func RegisterUserController(c echo.Context) error {
 	var userCreateRequest web.UserCreateRequest
 
 	if err := c.Bind(&userCreateRequest); err != nil {
-		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Input"))
+		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Register Input"))
 	}
 
 	user := request.ConvertToUserCreateRequest(userCreateRequest)
@@ -44,16 +44,16 @@ func LoginUserController(c echo.Context) error {
 	var userLoginRequest web.UserLoginRequest
 
 	if err := c.Bind(&userLoginRequest); err != nil {
-		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Input"))
+		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Login Input"))
 	}
 
 	var user domain.User
 	if err := config.DB.Where("email = ?", userLoginRequest.Email).First(&user).Error; err != nil {
-		return c.JSON(http.StatusUnauthorized, helper.ErrorResponse("Invalid Login"))
+		return c.JSON(http.StatusUnauthorized, helper.ErrorResponse("Email Not Registered"))
 	}
 
 	if err := helper.ComparePassword(user.Password, userLoginRequest.Password); err != nil {
-		return c.JSON(http.StatusUnauthorized, helper.ErrorResponse("Invalid Login"))
+		return c.JSON(http.StatusUnauthorized, helper.ErrorResponse("Incorrect Email or Password"))
 	}
 
 	userLoginRequest.Password = helper.HashPassword(userLoginRequest.Password)
@@ -66,7 +66,7 @@ func LoginUserController(c echo.Context) error {
 		Token:    token,
 	}
 
-	return c.JSON(http.StatusOK, helper.SuccessResponse("Login Successful", response))
+	return c.JSON(http.StatusOK, helper.SuccessResponse("Welcome to MediSync! Login Successful", response))
 }
 
 // Get All Users
@@ -75,7 +75,7 @@ func GetAllUsersController(c echo.Context) error {
 
 	err := config.DB.Preload("MedicalID").Find(&users).Error
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve User"))
+		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Users"))
 	}
 
 	if len(users) == 0 {
@@ -91,7 +91,7 @@ func GetAllUsersController(c echo.Context) error {
 func GetUserController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid ID"))
+		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid User ID"))
 	}
 
 	var user domain.User
@@ -109,13 +109,13 @@ func GetUserController(c echo.Context) error {
 func UpdateUserController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid ID"))
+		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid User ID"))
 	}
 
 	var updatedUser domain.User
 
 	if err := c.Bind(&updatedUser); err != nil {
-		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Input"))
+		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid User Input"))
 	}
 
 	var existingUser domain.User

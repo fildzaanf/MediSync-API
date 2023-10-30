@@ -10,7 +10,7 @@ type UserCreateResponse struct {
 	Email     string             `json:"email" form:"email"`
 	Password  string             `json:"password" form:"password"`
 	MedicalID domain.MedicalID `json:"medical_id" form:"medical_id"` // one to one
-	// Schedules []ScheduleResponse `json:"schedules" form:"schedules"`   // one to many
+	Schedules []domain.Schedule `json:"schedules" form:"schedules"`   // one to many
 
 }
 

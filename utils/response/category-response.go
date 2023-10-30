@@ -9,9 +9,21 @@ func ConvertToGetAllCategories(categories []domain.Category) []web.CategoryRespo
 	var results []web.CategoryResponse
 	for _, category := range categories {
 		categoryResponse := web.CategoryResponse{
-			ID:          int(category.ID),
-			Name:        category.Name,
-			Details:     category.Details,
+			ID:       int(category.ID),
+			Name:     category.Name,
+			Details:  category.Details,
+			Medicine: category.Medicine,
+		}
+		for _, medicine := range category.Medicine{
+			medicineResponse := domain.Medicine{
+				CategoryID: medicine.CategoryID,
+				Name: medicine.Name,
+				Amount: medicine.Amount,
+				Details: medicine.Details,
+				BatchNumber: medicine.BatchNumber,
+			}
+
+			categoryResponse.Medicine = append(categoryResponse.Medicine, medicineResponse)
 		}
 		results = append(results, categoryResponse)
 	}
@@ -19,10 +31,23 @@ func ConvertToGetAllCategories(categories []domain.Category) []web.CategoryRespo
 }
 
 func ConvertToGetCategory(category *domain.Category) web.CategoryResponse {
-	return web.CategoryResponse{
-		ID:          int(category.ID),
-		Name:        category.Name,
-		Details:     category.Details,
+	categoryResponse := web.CategoryResponse{
+		ID:       int(category.ID),
+		Name:     category.Name,
+		Details:  category.Details,
 	}
+	for _, medicine := range category.Medicine{
+		medicineResponse := domain.Medicine{
+			CategoryID: medicine.CategoryID,
+			Name: medicine.Name,
+			Amount: medicine.Amount,
+			Details: medicine.Details,
+			BatchNumber: medicine.BatchNumber,
+		}
+
+		categoryResponse.Medicine = append(categoryResponse.Medicine, medicineResponse)
+	}
+	return categoryResponse
 }
+
 

@@ -15,7 +15,7 @@ import (
 
 
 // Create Chat
-func MediChatController(c echo.Context) error {
+func CreateMediChatController(c echo.Context) error {
 
 	var input web.MediChatRequest
 

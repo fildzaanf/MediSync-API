@@ -42,9 +42,10 @@ func ConnectDB() {
 func InitialMigration() {
 	DB.AutoMigrate(
 		&domain.User{},
+		&domain.Category{},
 		&domain.Medicine{},
 		&domain.Schedule{},
-		&domain.Category{},
 		&domain.MedicalID{},
+		&domain.MediChat{},
 	)
 }

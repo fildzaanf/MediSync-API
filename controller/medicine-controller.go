@@ -16,17 +16,36 @@ import (
 
 // Create Medicine
 func CreateMedicineController(c echo.Context) error {
-	var medicineRequest web.MedicineRequest
 
-	if err := c.Bind(&medicineRequest); err != nil {
-		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Input"))
+	// Parse the Schedule ID from the request parameters
+	scheduleID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Schedule ID"))
 	}
 
-	medicine := request.ConvertToMedicineRequest(medicineRequest)
+	// Check if the Schedule with the provided ID exists
+	var schedule domain.Schedule
+	if err := config.DB.First(&schedule, scheduleID).Error; err != nil {
+		return c.JSON(http.StatusNotFound, helper.ErrorResponse("Schedule Not Found"))
+	}
+
+	//Parse the Medicine request from the request body
+	var medicineRequest web.MedicineRequest
+	if err := c.Bind(&medicineRequest); err != nil {
+		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Medicine Input"))
+	}
+
+	var category domain.Category
+	if err := config.DB.First(&category, medicineRequest.CategoryID).Error; err != nil {
+		return c.JSON(http.StatusNotFound, helper.ErrorResponse("Category Not Found"))
+	}
+
+	medicine := request.ConvertToMedicineRequest(medicineRequest, scheduleID)
 
 	if existingBatchNumber := config.DB.Where("batch_number = ?", medicine.BatchNumber).First(&medicine).Error; existingBatchNumber == nil {
 		return c.JSON(http.StatusConflict, helper.ErrorResponse("Batch Number Already Exist"))
 	}
+	medicine.CategoryID = category.ID
 
 	if err := config.DB.Create(&medicine).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Create Medicine"))
@@ -40,6 +59,7 @@ func CreateMedicineController(c echo.Context) error {
 // Get All Medicines
 func GetAllMedicinesController(c echo.Context) error {
 	var medicines []domain.Medicine
+
 
 	err := config.DB.Find(&medicines).Error
 	if err != nil {
@@ -87,7 +107,7 @@ func UpdateMedicineController(c echo.Context) error {
 	}
 
 	var existingMedicine domain.Medicine
-	result := config.DB.First(&existingMedicine, id)
+	result := config.DB.Model(&existingMedicine).First(&existingMedicine, id)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Medicine"))
 	}

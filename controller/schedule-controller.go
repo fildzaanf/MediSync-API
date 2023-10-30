@@ -7,27 +7,41 @@ import (
 	"app/model/web"
 	"app/utils/request"
 	"app/utils/response"
-
 	"net/http"
 	"strconv"
-
 	"github.com/labstack/echo/v4"
 )
 
 // Create Schedule
 func CreateScheduleController(c echo.Context) error {
-	var scheduleRequest web.ScheduleRequest
-
-	if err := c.Bind(&scheduleRequest); err != nil {
-		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Input"))
+     
+	// Parse the user ID from the request parameters
+	userID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid User ID"))
 	}
 
+	// Check if the user with the provided ID exists
+	var user domain.User
+	if err := config.DB.First(&user, userID).Error; err != nil {
+		return c.JSON(http.StatusNotFound, helper.ErrorResponse("User Not Found"))
+	}
+
+	// Parse the Schedule request from the request body
+	var scheduleRequest web.ScheduleRequest
+	if err := c.Bind(&scheduleRequest); err != nil {
+		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Schedule Input"))
+	}
+
+	// Create the  Schedule record and associate it with the user
 	schedule := request.ConvertToScheduleRequest(scheduleRequest)
+	schedule.UserID = uint(userID) // Set the User ID
 
 	if err := config.DB.Create(&schedule).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Create Schedule"))
 	}
 
+	helper.SetSchedule(schedule)
 	response := response.ConvertToGetSchedule(schedule)
 
 	return c.JSON(http.StatusCreated, helper.SuccessResponse("Success Created Schedule", response))
@@ -37,7 +51,7 @@ func CreateScheduleController(c echo.Context) error {
 func GetAllSchedulesController(c echo.Context) error {
 	var schedules []domain.Schedule
 
-	err := config.DB.Find(&schedules).Error
+	err := config.DB.Preload("Medicine").Find(&schedules).Error
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Schedules"))
 	}
@@ -60,7 +74,7 @@ func GetScheduleController(c echo.Context) error {
 
 	var schedule domain.Schedule
 
-	if err := config.DB.First(&schedule, id).Error; err != nil {
+	if err := config.DB.Preload("Medicine").First(&schedule, id).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Schedule"))
 	}
 
@@ -83,7 +97,7 @@ func UpdateScheduleController(c echo.Context) error {
 	}
 
 	var existingSchedule domain.Schedule
-	result := config.DB.First(&existingSchedule, id)
+	result := config.DB.Preload("Medicine").First(&existingSchedule, id)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Schedule"))
 	}
@@ -103,7 +117,7 @@ func DeleteScheduleController(c echo.Context) error {
 	}
 
 	var existingSchedule domain.Schedule
-	result := config.DB.First(&existingSchedule, id)
+	result := config.DB.Preload("Medicine").First(&existingSchedule, id)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Schedule"))
 	}

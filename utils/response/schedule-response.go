@@ -12,9 +12,14 @@ func ConvertToGetAllSchedules(schedules []domain.Schedule) []web.ScheduleRespons
 			ID:      int(schedule.ID),
 			Name:    schedule.Name,
 			Details: schedule.Details,
-			Time:    schedule.Time,
-			Repeat:  schedule.Repeat,
-			Status:  schedule.Status,
+			Minute:  schedule.Minute,
+			Hour:    schedule.Hour,
+			// Date:    schedule.Date,
+			// Month:   schedule.Month,
+			Day:     schedule.Day,
+			// Email:   schedule.Email,
+			Subject: schedule.Subject,
+			// Body:    schedule.Body,
 		}
 		results = append(results, scheduleResponse)
 	}
@@ -26,8 +31,13 @@ func ConvertToGetSchedule(schedule *domain.Schedule) web.ScheduleResponse {
 		ID:      int(schedule.ID),
 		Name:    schedule.Name,
 		Details: schedule.Details,
-		Time:    schedule.Time,
-		Repeat:  schedule.Repeat,
-		Status:  schedule.Status,
+		Minute:  schedule.Minute,
+		Hour:    schedule.Hour,
+		//Date:    schedule.Date,
+		//Month:   schedule.Month,
+		Day:     schedule.Day,
+		// Email:   schedule.Email,
+		Subject: schedule.Subject,
+		Body:    schedule.Body,
 	}
 }

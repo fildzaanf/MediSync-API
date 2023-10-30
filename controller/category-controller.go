@@ -41,7 +41,7 @@ func CreateCategoryController(c echo.Context) error {
 func GetAllCategoriesController(c echo.Context) error {
 	var categories []domain.Category
 
-	err := config.DB.Find(&categories).Error
+	err := config.DB.Preload("Medicine").Find(&categories).Error
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Categories"))
 	}
@@ -64,7 +64,7 @@ func GetCategoryController(c echo.Context) error {
 
 	var category domain.Category
 
-	if err := config.DB.First(&category, id).Error; err != nil {
+	if err := config.DB.Preload("Medicine").First(&category, id).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Category"))
 	}
 
@@ -87,7 +87,7 @@ func UpdateCategoryController(c echo.Context) error {
 	}
 
 	var existingCategory domain.Category
-	result := config.DB.First(&existingCategory, id)
+	result := config.DB.Model(&existingCategory).Preload("Medicine").First(&existingCategory, id)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Category"))
 	}
@@ -107,7 +107,7 @@ func DeleteCategoryController(c echo.Context) error {
 	}
 
 	var existingCategory domain.Category
-	result := config.DB.First(&existingCategory, id)
+	result := config.DB.Model(&existingCategory).Preload("Medicine").First(&existingCategory, id)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Category"))
 	}

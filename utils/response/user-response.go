@@ -14,9 +14,22 @@ func ConvertToGetAllUsers(users []domain.User) []web.UserCreateResponse {
 			Email:    user.Email,
 			Password: user.Password,
 			MedicalID: user.MedicalID,
-			// Schedules: schedules,
 		}
-
+		for _, schedule := range user.Schedules{
+			scheduleResponse := domain.Schedule{
+				UserID: schedule.UserID,
+				Name: schedule.Name,
+				Details: schedule.Details,
+				Minute: schedule.Minute,
+				Hour: schedule.Hour,
+				Day: schedule.Day,
+				Email: schedule.Email,
+				Subject: schedule.Subject,
+				Body: schedule.Body,
+			}
+			userCreateResponse.Schedules = append(userCreateResponse.Schedules, scheduleResponse)
+		}
+ 
 		results = append(results, userCreateResponse)
 	}
 
@@ -30,6 +43,6 @@ func ConvertToGetUser(user *domain.User) web.UserCreateResponse {
 		Email:    user.Email,
 		Password: user.Password,
 		MedicalID: user.MedicalID,
-		// Schedules: schedules,
+		Schedules: user.Schedules,
 	}
 }

@@ -31,7 +31,7 @@ func CreateMedicalIDController(c echo.Context) error {
 	// Check if a MedicalID already exists for the same user
 	var existingMedicalID domain.MedicalID
 	if err := config.DB.Where("user_id = ?", userID).First(&existingMedicalID).Error; err == nil {
-		return c.JSON(http.StatusConflict, helper.ErrorResponse("MedicalID for this user already exists"))
+		return c.JSON(http.StatusConflict, helper.ErrorResponse("MedicalID for this User Already Exists"))
 	}
 
 	// Parse the MedicalID request from the request body
@@ -94,22 +94,23 @@ func GetMedicalIDController(c echo.Context) error {
 func UpdateMedicalIDController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid ID"))
+		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Medical ID"))
 	}
 
-	var updatedMedicalID domain.MedicalID
+	var updatedMedicalID web.MedicalIDRequest
 
 	if err := c.Bind(&updatedMedicalID); err != nil {
-		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Input"))
+		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Medical ID Input"))
 	}
 
 	var existingMedicalID domain.MedicalID
-	result := config.DB.First(&existingMedicalID, id)
+	result := config.DB.Model(&existingMedicalID).First(&existingMedicalID, id)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Medical ID"))
 	}
 
-	config.DB.Model(&existingMedicalID).Updates(updatedMedicalID)
+	medicalID := request.ConvertToMedicalIDRequest(updatedMedicalID)
+	config.DB.Model(&existingMedicalID).Updates(medicalID)
 
 	response := response.ConvertToGetMedicalID(&existingMedicalID)
 
@@ -124,7 +125,7 @@ func DeleteMedicalIDController(c echo.Context) error {
 	}
 
 	var existingMedicalID domain.MedicalID
-	result := config.DB.First(&existingMedicalID, id)
+	result := config.DB.Model(&existingMedicalID).First(&existingMedicalID, id)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Medical ID"))
 	}

@@ -7,13 +7,16 @@ import (
 type Schedule struct {
 	*gorm.Model
 
-	MedicineID uint       `json:"medicine_id" form:"medicine_id"`
-	// UserID     uint       `json:"user_id" form:"user_id"`
-	Name       string     `json:"name" form:"name"`
-	Details    string     `json:"details" form:"details"`
-	Time       string     `json:"time" form:"time"`
-	Repeat     string     `json:"repeat" form:"repeat"`
-	Status     string     `json:"status" form:"status"`
-	Medicine   []Medicine // one to many
+	// MedicineID uint
+	UserID   uint
+	Name     string
+	Details  string
+	Minute   string // 0-59
+	Hour     string // 0-23
+	Day      string // 0 or 7 (sunday); 1 (monday)
+	Email    string
+	Subject  string
+	Body     string
+	Medicine Medicine `gorm:"ForeignKey:ScheduleID;references:ID"` // one to many
 
 }

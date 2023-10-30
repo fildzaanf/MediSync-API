@@ -9,8 +9,13 @@ func ConvertToScheduleRequest(schedule web.ScheduleRequest) *domain.Schedule {
 	return &domain.Schedule{
 		Name:    schedule.Name,
 		Details: schedule.Details,
-		Time:    schedule.Time,
-		Repeat:  schedule.Repeat,
-		Status:  schedule.Status,
+		Minute:  schedule.Minute,
+		Hour:    schedule.Hour,
+		// Date:    schedule.Date,
+		// Month:   schedule.Month,
+		Day:     schedule.Day,
+		// Email:   schedule.Email,
+		Subject: schedule.Subject,
+		Body:    schedule.Body,
 	}
 }
