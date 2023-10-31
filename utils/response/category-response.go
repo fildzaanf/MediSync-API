@@ -16,6 +16,7 @@ func ConvertToGetAllCategories(categories []domain.Category) []web.CategoryRespo
 		}
 		for _, medicine := range category.Medicine{
 			medicineResponse := domain.Medicine{
+				UserID: medicine.UserID,
 				CategoryID: medicine.CategoryID,
 				Name: medicine.Name,
 				Amount: medicine.Amount,
@@ -38,6 +39,7 @@ func ConvertToGetCategory(category *domain.Category) web.CategoryResponse {
 	}
 	for _, medicine := range category.Medicine{
 		medicineResponse := domain.Medicine{
+			UserID: medicine.UserID,
 			CategoryID: medicine.CategoryID,
 			Name: medicine.Name,
 			Amount: medicine.Amount,

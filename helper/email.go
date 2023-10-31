@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"app/model/domain"
 	"fmt"
 	"os"
 	"strconv"
@@ -9,40 +10,46 @@ import (
 )
 
 type Mail struct {
-	SMTP_HOST     string
-	SMTP_PORT     string
-	SMTP_EMAIL    string
-	SMTP_PASSWORD string
+	smtpHost     string
+	smtpPort     string
+	smtpEmail    string
+	smtpPassword string
 }
 
-func SendEmailController(email, subject, body string) error {
+func SendEmailController(email, subject string, medicine domain.Medicine) error {
 
 	mail := Mail{
-		SMTP_HOST:     os.Getenv("SMTP_HOST"),
-		SMTP_PORT:     os.Getenv("SMTP_PORT"),
-		SMTP_EMAIL:    os.Getenv("SMTP_EMAIL"),
-		SMTP_PASSWORD: os.Getenv("SMTP_PASSWORD"),
+		smtpHost:     os.Getenv("SMTP_HOST"),
+		smtpPort:     os.Getenv("SMTP_PORT"),
+		smtpEmail:    os.Getenv("SMTP_EMAIL"),
+		smtpPassword: os.Getenv("SMTP_PASSWORD"),
 	}
 
-    fmt.Println(email, subject, body)
-    fmt.Println(mail)
+	fmt.Println(email, subject, medicine)
+	fmt.Println(mail)
+	name := medicine.Name
+	amount := medicine.Amount
+	details := medicine.Details
 
-    port, err := strconv.Atoi(mail.SMTP_PORT)
+	
+	body := fmt.Sprintf("<h3>[MediSync]Reminder<h3>\n<h4>Medicine 	:	%s<h4>\n <h4>Amounts		: 	%d<h4>\n  <h4>Details 		:	%s<h4>\n <h3>Get Well Soon!<h3>", name, amount, details)
+
+	port, err := strconv.Atoi(mail.smtpPort)
 	if err != nil {
 		return err
 	}
 
 	m := gomail.NewMessage()
-	m.SetHeader("From", mail.SMTP_EMAIL)
+	m.SetHeader("From", mail.smtpEmail)
 	m.SetHeader("To", email)
 	m.SetHeader("Subject", subject)
 	m.SetBody("text/html", body)
 
-    dialer := gomail.NewDialer(
-		mail.SMTP_HOST,
+	dialer := gomail.NewDialer(
+		mail.smtpHost,
 		port,
-		mail.SMTP_EMAIL,
-		mail.SMTP_PASSWORD,
+		mail.smtpEmail,
+		mail.smtpPassword,
 	)
 
 	if err := dialer.DialAndSend(m); err != nil {

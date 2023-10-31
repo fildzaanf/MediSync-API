@@ -3,11 +3,12 @@ package helper
 import (
 	"time"
 	"fmt"
+	"strconv"
 	"app/model/domain"
 	"github.com/go-co-op/gocron"
 )
 
-func SetSchedule(schedule *domain.Schedule) {
+func SetSchedule(schedule *domain.Schedule, medicine domain.Medicine) {
 
 	
     local, err := time.LoadLocation("Asia/Jakarta")
@@ -16,10 +17,11 @@ func SetSchedule(schedule *domain.Schedule) {
 	}
 
     time := fmt.Sprintf("%s:%s",schedule.Hour,schedule.Minute)
-    
+    day, _ := strconv.Atoi(schedule.Day)
+
     c := gocron.NewScheduler(local)
-    c.Every(schedule.Day).Day().At(time).Do(func(){
-        SendEmailController(schedule.Email, schedule.Subject, schedule.Body)
+    c.Every(day).Day().At(time).Do(func(){
+        SendEmailController(schedule.Email, schedule.Subject, medicine)
 		fmt.Println("Email Sent")
     })
     

@@ -17,7 +17,7 @@ func ConvertToGetAllUsers(users []domain.User) []web.UserCreateResponse {
 		}
 		for _, schedule := range user.Schedules{
 			scheduleResponse := domain.Schedule{
-				UserID: schedule.UserID,
+				MedicineID: schedule.MedicineID,
 				Name: schedule.Name,
 				Details: schedule.Details,
 				Minute: schedule.Minute,
@@ -25,7 +25,6 @@ func ConvertToGetAllUsers(users []domain.User) []web.UserCreateResponse {
 				Day: schedule.Day,
 				Email: schedule.Email,
 				Subject: schedule.Subject,
-				Body: schedule.Body,
 			}
 			userCreateResponse.Schedules = append(userCreateResponse.Schedules, scheduleResponse)
 		}

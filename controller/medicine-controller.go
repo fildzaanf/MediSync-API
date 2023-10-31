@@ -17,16 +17,16 @@ import (
 // Create Medicine
 func CreateMedicineController(c echo.Context) error {
 
-	// Parse the Schedule ID from the request parameters
-	scheduleID, err := strconv.Atoi(c.Param("id"))
+	// Parse the user ID from the request parameters
+	userID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid Schedule ID"))
+		return c.JSON(http.StatusBadRequest, helper.ErrorResponse("Invalid User ID"))
 	}
 
-	// Check if the Schedule with the provided ID exists
-	var schedule domain.Schedule
-	if err := config.DB.First(&schedule, scheduleID).Error; err != nil {
-		return c.JSON(http.StatusNotFound, helper.ErrorResponse("Schedule Not Found"))
+	// Check if the user with the provided ID exists
+	var user domain.User
+	if err := config.DB.First(&user, userID).Error; err != nil {
+		return c.JSON(http.StatusNotFound, helper.ErrorResponse("User Not Found"))
 	}
 
 	//Parse the Medicine request from the request body
@@ -40,7 +40,7 @@ func CreateMedicineController(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, helper.ErrorResponse("Category Not Found"))
 	}
 
-	medicine := request.ConvertToMedicineRequest(medicineRequest, scheduleID)
+	medicine := request.ConvertToMedicineRequest(medicineRequest, userID)
 
 	if existingBatchNumber := config.DB.Where("batch_number = ?", medicine.BatchNumber).First(&medicine).Error; existingBatchNumber == nil {
 		return c.JSON(http.StatusConflict, helper.ErrorResponse("Batch Number Already Exist"))

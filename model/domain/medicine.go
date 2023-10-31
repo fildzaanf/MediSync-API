@@ -7,7 +7,7 @@ import (
 type Medicine struct {
 	*gorm.Model
 
-	ScheduleID  uint
+	UserID  uint
 	CategoryID  uint 	
 	Name        string
 	Amount      int

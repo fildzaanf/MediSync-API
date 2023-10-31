@@ -10,13 +10,13 @@ func ConvertToGetAllMedicines(medicines []domain.Medicine) []web.MedicineRespons
 	for _, medicine := range medicines {
 		medicineResponse := web.MedicineResponse{
 			ID:          int(medicine.ID),
-			ScheduleID:	 int(medicine.ScheduleID),
+			UserID:	 int(medicine.UserID),
 			CategoryID:  int(medicine.CategoryID),
 			Name:        medicine.Name,
 			Amount:      medicine.Amount,
 			Details:     medicine.Details,
 			BatchNumber: medicine.BatchNumber,
-			// Category:    medicine.Category,
+			
 		}
 		results = append(results, medicineResponse)
 	}
@@ -26,12 +26,11 @@ func ConvertToGetAllMedicines(medicines []domain.Medicine) []web.MedicineRespons
 func ConvertToGetMedicine(medicine *domain.Medicine) web.MedicineResponse {
 	return web.MedicineResponse{
 		ID:          int(medicine.ID),
-		ScheduleID:	 int(medicine.ScheduleID),
+		UserID:	 int(medicine.UserID),
 		CategoryID:  int(medicine.CategoryID),
 		Name:        medicine.Name,
 		Amount:      medicine.Amount,
 		Details:     medicine.Details,
 		BatchNumber: medicine.BatchNumber,
-		// Category:    medicine.Category,
 	}
 }

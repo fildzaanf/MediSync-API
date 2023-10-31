@@ -5,9 +5,9 @@ import (
 	"app/model/web"
 )
 
-func ConvertToMedicineRequest(medicine web.MedicineRequest, scheduleID int) *domain.Medicine {
+func ConvertToMedicineRequest(medicine web.MedicineRequest, userID int) *domain.Medicine {
 	return &domain.Medicine{
-		ScheduleID:  uint(scheduleID),
+		UserID:  uint(userID),
 		CategoryID:  uint(medicine.CategoryID), 
 		Name:        medicine.Name,
 		Amount:      medicine.Amount,

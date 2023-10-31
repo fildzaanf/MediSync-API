@@ -70,7 +70,6 @@ func Routes() *echo.Echo {
 	gCategories.PUT("/:id/", controller.UpdateCategoryController, JWT)
 	gCategories.DELETE("/:id/", controller.DeleteCategoryController, JWT)
 
-
 	gMedichats := e.Group("/medichats")
 	gMedichats.POST("/", controller.CreateMediChatController, JWT)
 
