@@ -11,6 +11,5 @@ type ScheduleResponse struct {
 	Hour       string          `json:"hour" form:"hour"`     // 0-23
 	Day        string          `json:"day" form:"day"`       // 0 or 7 (sunday); 1 (monday)
 	Subject    string          `json:"subject" form:"subject"`
-	// Body       string          `json:"body" form:"body"`
 	Medicine   domain.Medicine `json:"medicine" form:"medicine"` // one to many
 }

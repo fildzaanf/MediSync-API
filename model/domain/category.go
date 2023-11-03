@@ -9,5 +9,5 @@ type Category struct {
 
 	Name     string
 	Details  string
-	Medicine []Medicine `gorm:"ForeignKey:CategoryID;references:ID"` // one to many
+// 	Medicine []Medicine `gorm:"ForeignKey:CategoryID;references:ID"` // one to many
 }

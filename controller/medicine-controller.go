@@ -61,7 +61,7 @@ func GetAllMedicinesController(c echo.Context) error {
 	var medicines []domain.Medicine
 
 
-	err := config.DB.Find(&medicines).Error
+	err := config.DB.Preload("Category").Find(&medicines).Error
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Medicines"))
 	}
@@ -84,7 +84,7 @@ func GetMedicineController(c echo.Context) error {
 
 	var medicine domain.Medicine
 
-	if err := config.DB.First(&medicine, id).Error; err != nil {
+	if err := config.DB.Preload("Category").First(&medicine, id).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Medicine"))
 	}
 
@@ -107,7 +107,7 @@ func UpdateMedicineController(c echo.Context) error {
 	}
 
 	var existingMedicine domain.Medicine
-	result := config.DB.Model(&existingMedicine).First(&existingMedicine, id)
+	result := config.DB.Model(&existingMedicine).Preload("Category").First(&existingMedicine, id)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Medicine"))
 	}
@@ -127,7 +127,7 @@ func DeleteMedicineController(c echo.Context) error {
 	}
 
 	var existingMedicine domain.Medicine
-	result := config.DB.First(&existingMedicine, id)
+	result := config.DB.Preload("Category").First(&existingMedicine, id)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Retrieve Medicine"))
 	}

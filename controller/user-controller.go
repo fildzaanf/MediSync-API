@@ -58,7 +58,7 @@ func LoginUserController(c echo.Context) error {
 
 	userLoginRequest.Password = helper.HashPassword(userLoginRequest.Password)
 
-	token := middleware.CreateToken(int(user.ID), user.Fullname)
+	token := middleware.CreateToken(int(user.ID), user.Email)
 
 	response := web.UserLoginResponse{
 		Email:    user.Email,

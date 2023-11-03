@@ -13,5 +13,5 @@ type Medicine struct {
 	Amount      int
 	Details     string
 	BatchNumber int
-	// Category    Category `gorm:"ForeignKey:CategoryID;references:ID"`
+	Category    Category `gorm:"ForeignKey:CategoryID;references:ID"`
 }
