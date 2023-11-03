@@ -48,7 +48,6 @@ jobs:
             -e DB_NAME=${{ secrets.DB_NAME }} \
             -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
             -e OPENAI_KEY=${{ secrets.OPENAI_KEY }} \
-            -e PORT=${{ secrets.PORT }} \
             -e SMTP_EMAIL=${{ secrets.SMTP_EMAIL }} \
             -e SMTP_HOST=${{ secrets.SMTP_HOST }} \
             -e SMTP_PORT=${{ secrets.SMTP_PORT }} \
