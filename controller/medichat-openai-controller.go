@@ -3,14 +3,24 @@ package controller
 import (
 	"context"
 	"os"
+	"log"
 	"app/model/web"
 	"app/model/domain"
+	"github.com/joho/godotenv"
 
 	openai "github.com/sashabaranov/go-openai"
 )
 
 // Request response to OPENAI
 func OpenAIMediChatResponseController(request *web.MediChatRequest) (*domain.MediChat, error) {
+
+	_, err := os.Stat(".env")
+    if err == nil {
+        err := godotenv.Load()
+        if err != nil {
+            log.Fatal("Failed to fetch .env file")
+        }
+    }
 
 	ctx := context.Background()
 	client := openai.NewClient(os.Getenv("OPENAI_KEY"))
