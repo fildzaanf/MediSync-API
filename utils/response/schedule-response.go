@@ -52,4 +52,6 @@ func ConvertToGetSchedule(schedule *domain.Schedule) web.ScheduleResponse {
 		Subject: schedule.Subject,
 		Medicine: schedule.Medicine,
 	}
+	
 }
+

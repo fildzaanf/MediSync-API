@@ -72,7 +72,7 @@ func GetAllMedicalIDController(c echo.Context) error {
 	return c.JSON(http.StatusOK, helper.SuccessResponse("Medical ID Data Successfully Retrieved", response))
 }
 
-// Get Medical by ID
+// Get Medical ID by ID
 func GetMedicalIDController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

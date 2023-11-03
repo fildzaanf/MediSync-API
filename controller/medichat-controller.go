@@ -1,6 +1,5 @@
 package controller
 
-
 import (
 	"app/utils/response"
 	// "app/utils/request"
@@ -8,11 +7,9 @@ import (
 	"app/helper"
 	"app/model/web"
 	"net/http"
-	
 
 	"github.com/labstack/echo/v4"
 )
-
 
 // Create Chat
 func CreateMediChatController(c echo.Context) error {
@@ -26,10 +23,10 @@ func CreateMediChatController(c echo.Context) error {
 	medichat, err := OpenAIMediChatResponseController(&input)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, web.MediChatResponse{
-			Response:   "Failed to Provide Response MediChat",
+			Response: "Failed to Provide Response MediChat",
 		})
 	}
-	
+
 	if err := config.DB.Create(&medichat).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ErrorResponse("Failed to Provide Response MediChat"))
 	}

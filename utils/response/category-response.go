@@ -12,44 +12,44 @@ func ConvertToGetAllCategories(categories []domain.Category) []web.CategoryRespo
 			ID:       int(category.ID),
 			Name:     category.Name,
 			Details:  category.Details,
-			Medicine: category.Medicine,
+			// Medicine: category.Medicine,
 		}
-		for _, medicine := range category.Medicine{
-			medicineResponse := domain.Medicine{
-				UserID: medicine.UserID,
-				CategoryID: medicine.CategoryID,
-				Name: medicine.Name,
-				Amount: medicine.Amount,
-				Details: medicine.Details,
-				BatchNumber: medicine.BatchNumber,
-			}
+		// for _, medicine := range category.Medicine{
+		// 	medicineResponse := domain.Medicine{
+		// 		UserID: medicine.UserID,
+		// 		CategoryID: medicine.CategoryID,
+		// 		Name: medicine.Name,
+		// 		Amount: medicine.Amount,
+		// 		Details: medicine.Details,
+		// 		BatchNumber: medicine.BatchNumber,
+		// 	}
 
-			categoryResponse.Medicine = append(categoryResponse.Medicine, medicineResponse)
-		}
+		// 	categoryResponse.Medicine = append(categoryResponse.Medicine, medicineResponse)
+		// }
 		results = append(results, categoryResponse)
 	}
 	return results
 }
 
 func ConvertToGetCategory(category *domain.Category) web.CategoryResponse {
-	categoryResponse := web.CategoryResponse{
+	return web.CategoryResponse{
 		ID:       int(category.ID),
 		Name:     category.Name,
 		Details:  category.Details,
 	}
-	for _, medicine := range category.Medicine{
-		medicineResponse := domain.Medicine{
-			UserID: medicine.UserID,
-			CategoryID: medicine.CategoryID,
-			Name: medicine.Name,
-			Amount: medicine.Amount,
-			Details: medicine.Details,
-			BatchNumber: medicine.BatchNumber,
-		}
+	// for _, medicine := range category.Medicine{
+	// 	medicineResponse := domain.Medicine{
+	// 		UserID: medicine.UserID,
+	// 		CategoryID: medicine.CategoryID,
+	// 		Name: medicine.Name,
+	// 		Amount: medicine.Amount,
+	// 		Details: medicine.Details,
+	// 		BatchNumber: medicine.BatchNumber,
+	// 	}
 
-		categoryResponse.Medicine = append(categoryResponse.Medicine, medicineResponse)
-	}
-	return categoryResponse
+	// 	categoryResponse.Medicine = append(categoryResponse.Medicine, medicineResponse)
+	// }
+	// return categoryResponse
 }
 
 

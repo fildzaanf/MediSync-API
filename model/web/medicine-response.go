@@ -1,6 +1,6 @@
 package web
 
-// "app/model/domain"
+import "app/model/domain"
 
 type MedicineResponse struct {
 	ID          int    `json:"id" form:"id"`
@@ -10,5 +10,5 @@ type MedicineResponse struct {
 	Amount      int    `json:"amount" form:"amount"`
 	Details     string `json:"details" form:"details"`
 	BatchNumber int    `json:"batch_number" form:"batch_number"`
-	// Category    domain.Category `json:"category" form:"category"` // one to many
+	Category    domain.Category `json:"category" form:"category"` // one to many
 }
