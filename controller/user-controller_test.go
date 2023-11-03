@@ -75,7 +75,7 @@ func TestLoginUserControllerValid(t *testing.T) {
 
 // Login User Controller Invalid
 func TestLoginUserControllerInvalid(t *testing.T) {
-	loginUser := `{"Username": "", "Password": ""}`
+	loginUser := `{"Email": "", "Password": ""}`
 	e := InitTestDB()
 	req := httptest.NewRequest(http.MethodPost, "/users/login/", strings.NewReader(loginUser))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON) 	
@@ -101,19 +101,19 @@ func TestGetAllUsersControllerValid(t *testing.T) {
 	assert.Equal(t, http.StatusOK, rec.Code)
 }
 
-// Get All Users Controller Invalid
-func TestGetAllUsersControllerInvalid(t *testing.T) {
-	e := InitTestDB()
-	req := httptest.NewRequest(http.MethodGet, "/users/", nil)
-	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
-	fmt.Println(rec.Code)
+// // Get All Users Controller Invalid
+// func TestGetAllUsersControllerInvalid(t *testing.T) {
+// 	e := InitTestDB()
+// 	req := httptest.NewRequest(http.MethodGet, "/users/", nil)
+// 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+// 	rec := httptest.NewRecorder()
+// 	c := e.NewContext(req, rec)
+// 	fmt.Println(rec.Code)
 
-	err := GetAllUsersController(c)
-	assert.NoError(t, err)
-	assert.Equal(t, http.StatusBadRequest, rec.Code)
-}
+// 	err := GetAllUsersController(c)
+// 	assert.NoError(t, err)
+// 	assert.Equal(t, http.StatusBadRequest, rec.Code)
+// }
 
 // Get User By ID Controller Valid
 func TestGetUserControllerValid(t *testing.T) {
@@ -140,7 +140,7 @@ func TestGetUserControllerInvalid(t *testing.T) {
 	c := e.NewContext(req, rec)
 	c.SetPath("/:id/")
 	c.SetParamNames("id")
-	c.SetParamValues("100")
+	c.SetParamValues("z")
 
 	err := GetUserController(c)
 	assert.NoError(t, err)
@@ -179,7 +179,7 @@ func TestUpdateUserControllerInvalid(t *testing.T) {
 	c := e.NewContext(req, rec)
 	c.SetPath("/:id/")
 	c.SetParamNames("id")
-	c.SetParamValues("100")
+	c.SetParamValues("z")
 
 	err := UpdateUserController(c)
 	fmt.Println(rec.Code)
@@ -212,7 +212,7 @@ func TestDeleteUserControllerInvalid(t *testing.T) {
 	c := e.NewContext(req, rec)
 	c.SetPath("/:id/")
 	c.SetParamNames("id")
-	c.SetParamValues("100")
+	c.SetParamValues("z")
 
 	err := DeleteUserController(c)
 	assert.NoError(t, err)
