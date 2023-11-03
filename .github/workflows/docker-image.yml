@@ -35,7 +35,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
+          port: ${{ secrets.SERVER_PORT }}
           script: |
             sudo docker stop ${{ secrets.CNAME }}
             sudo docker rm ${{ secrets.CNAME }}
