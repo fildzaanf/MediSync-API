@@ -27,10 +27,13 @@ func Routes() *echo.Echo {
 	middleware.CORS(e)
 	middleware.NotFoundHandler(e)
 
-	if err := godotenv.Load(".env"); err != nil {
-		log.Fatal("Error loading .env file")
-		os.Exit(1)
-	}
+	_, err := os.Stat(".env")
+    if err == nil {
+        err := godotenv.Load()
+        if err != nil {
+            log.Fatal("Failed to fetch .env file")
+        }
+    }
 
 	JWT := middlewares.JWT([]byte(os.Getenv("SECRET_KEY")))
 
@@ -71,7 +74,7 @@ func Routes() *echo.Echo {
 	gCategories.DELETE("/:id/", controller.DeleteCategoryController, JWT)
 
 	gMedichats := e.Group("/medichats")
-	gMedichats.POST("/", controller.CreateMediChatController, JWT)
+	gMedichats.POST("/", controller.CreateMediChatController)
 
 	return e
 
