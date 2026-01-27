@@ -19,6 +19,17 @@ The platform allows users to:
 
 By combining scheduling automation, background jobs, email notifications, and AI-powered assistance, MediSync helps users maintain consistent medication routines, improve adherence, and manage their medications more effectively in a centralized and user-friendly system.
 
+## ✨ Features
+| Feature                   | Description                                                                                                                                                          |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| User Management           | Enables users to register, log in, and manage their profile information securely using JWT-based authentication                                                      |
+| Medication Management     | Allows users to add, update, view, and delete medicines, including storing detailed medication information such as name, dosage, and category                        |
+| Schedule Management       | Provides functionality to create and manage medication intake schedules, helping users take medicines at the correct time consistently                               |
+| Medical ID Management     | Stores and manages user medical identity data to associate medications, schedules, and health-related information with specific users                                |
+| Automated Email Reminders | Sends scheduled email notifications using background jobs (Go Cron) to remind users to take their medications on time                                                |
+| MediChat (AI Chatbot)     | AI-powered chatbot integrated with a GPT-based model that helps users obtain medication-related information and basic guidance through natural language interaction  |
+| Category Management       | Organizes medicines into categories to improve data structuring, filtering, and easier management                                                                    |
+
 ## 🚀 Tools and Technologies 
 - Go Programming Language
 - Echo Go Framework
@@ -32,25 +43,13 @@ By combining scheduling automation, background jobs, email notifications, and AI
   - Amazon Relational Database Service (RDS)
 - Large Language Model (LLM) with Generative Pre-trained Transformer (GPT)
 - ChatBot with Prompt Engineering
-- Go Cron Jobs with SMTP and Go Mail to scheduled email reminders
+- Go Cron Jobs with SMTP and Go Mail for Scheduled Email Reminders
 - Go Testify for Unit Test
 
 ## 🏛️ System Design and Architecture
 - Domain-Driven Design (DDD)
 - Model View Controller (MVC) Architecture
 - REST API
-
-## ✨ Features
-| Feature                   | Description                                                                                                                                                          |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| User Management           | Enables users to register, log in, and manage their profile information securely using JWT-based authentication                                                      |
-| Medication Management     | Allows users to add, update, view, and delete medicines, including storing detailed medication information such as name, dosage, and category                        |
-| Schedule Management       | Provides functionality to create and manage medication intake schedules, helping users take medicines at the correct time consistently                               |
-| Medical ID Management     | Stores and manages user medical identity data to associate medications, schedules, and health-related information with specific users                                |
-| Automated Email Reminders | Sends scheduled email notifications using background jobs (Go Cron) to remind users to take their medications on time                                                |
-| MediChat (AI Chatbot)     | AI-powered chatbot integrated with a GPT-based model that helps users obtain medication-related information and basic guidance through natural language interaction  |
-| Category Management       | Organizes medicines into categories to improve data structuring, filtering, and easier management                                                                    |
-
 
 ## 📡 API Endpoints
 
