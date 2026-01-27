@@ -2,7 +2,7 @@
 
 ## 📝 Project Overview
 MediSync is a digital health platform that provides services for scheduling medication use times, managing medication stock, and medication information via MediChat integrated with Artificial Intelligence 
-
+ 
 ## 🎯Problem Statement & Solution
 #### Problem Statement
 Many people struggle to manage their medication routines due to forgotten schedules, untracked medicine stock, and limited access to reliable medication information. These issues can lead to missed doses, improper usage, and reduced treatment effectiveness.
